@@ -16,7 +16,7 @@ export default defineConfig({
   injectStyle: false,
   outExtension: ({ format }) => ({ js: format === "esm" ? ".js" : ".cjs" }),
   // Copy the stylesheet next to the bundles so
-  // `@acme/country-language-selector/styles.css` resolves against dist/.
+  // `@asafarim/country-language-selector/styles.css` resolves against dist/.
   async onSuccess() {
     mkdirSync(resolve("dist"), { recursive: true });
     copyFileSync(

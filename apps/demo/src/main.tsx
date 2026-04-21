@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import "@acme/country-language-selector/styles.css";
+import "@asafarim/country-language-selector/styles.css";
 import "./styles.css";
 import App from "./App";
 

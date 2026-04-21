@@ -1,5 +1,5 @@
 /**
- * Public types for @acme/country-language-selector.
+ * Public types for @asafarim/country-language-selector.
  *
  * The model is deliberately minimal:
  *   - A `Country` owns an ordered list of supported `Language` codes.

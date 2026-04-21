@@ -1,4 +1,4 @@
-# @acme/country-language-selector
+# @asafarim/country-language-selector
 
 A modern, accessible, reusable React + TypeScript country & language selector built for navbars. First-class support for multi-language countries (Belgium, Switzerland, Canada, …).
 
@@ -7,13 +7,13 @@ A modern, accessible, reusable React + TypeScript country & language selector bu
 Inside this monorepo it's already wired up. To publish or consume externally:
 
 ```bash
-pnpm add @acme/country-language-selector
+pnpm add @asafarim/country-language-selector
 ```
 
 Import the stylesheet once at your app root:
 
 ```ts
-import "@acme/country-language-selector/styles.css";
+import "@asafarim/country-language-selector/styles.css";
 ```
 
 ## Usage
@@ -21,7 +21,7 @@ import "@acme/country-language-selector/styles.css";
 ### Uncontrolled
 
 ```tsx
-import { CountryLanguageSelector } from "@acme/country-language-selector";
+import { CountryLanguageSelector } from "@asafarim/country-language-selector";
 
 export function Navbar() {
   return (
@@ -48,7 +48,7 @@ const [locale, setLocale] = useState<Locale>({ country: "FR", language: "fr" });
 ### Custom country list
 
 ```tsx
-import { CountryLanguageSelector, type Country } from "@acme/country-language-selector";
+import { CountryLanguageSelector, type Country } from "@asafarim/country-language-selector";
 
 const countries: Country[] = [
   { code: "BE", name: "Belgium", flag: "🇧🇪",

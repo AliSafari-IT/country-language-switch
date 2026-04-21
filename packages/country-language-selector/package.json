@@ -1,5 +1,5 @@
 {
-  "name": "@acme/country-language-selector",
+  "name": "@asafarim/country-language-selector",
   "version": "0.1.0",
   "description": "A modern, accessible, reusable React + TypeScript country & language selector for navbars.",
   "license": "MIT",

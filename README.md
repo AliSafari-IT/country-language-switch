@@ -9,7 +9,7 @@ A pnpm workspace containing a reusable React + TypeScript country/language selec
 ├── apps/
 │   └── demo/                             # Vite + React playground
 └── packages/
-    └── country-language-selector/        # The reusable package (@acme/country-language-selector)
+    └── country-language-selector/        # The reusable package (@asafarim/country-language-selector)
 ```
 
 ## Quickstart
@@ -35,11 +35,11 @@ Router project:
 
 ```tsx
 // app/layout.tsx
-import "@acme/country-language-selector/styles.css";
+import "@asafarim/country-language-selector/styles.css";
 
 // app/components/LocaleSwitcher.tsx
 "use client";
-import { CountryLanguageSelector } from "@acme/country-language-selector";
+import { CountryLanguageSelector } from "@asafarim/country-language-selector";
 export default function LocaleSwitcher() {
   return <CountryLanguageSelector persistKey="site-locale" />;
 }

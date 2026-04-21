@@ -4,7 +4,7 @@ import {
   defaultCountries,
   type Locale,
   type LocaleChangeMeta,
-} from "@acme/country-language-selector";
+} from "@asafarim/country-language-selector";
 
 interface LogEntry {
   id: number;
@@ -51,18 +51,18 @@ export default function App() {
       <header className="navbar">
         <div className="navbar__brand">
           <span className="navbar__dot" aria-hidden="true" />
-          Acme Travel
+          ASafariM Digital
         </div>
         <nav className="navbar__nav" aria-label="Primary">
-          <a href="#">Destinations</a>
-          <a href="#">Stays</a>
-          <a href="#">Experiences</a>
-          <a href="#">Help</a>
+          <a href="https://github.com/AliSafari-IT" target="_blank" rel="noopener noreferrer">GitHub</a>
+          <a href="https://asafarim.be/" target="_blank" rel="noopener noreferrer">Website</a>
+          <a href="https://testora.asafarim.be/" target="_blank" rel="noopener noreferrer">Testora</a>
+          <a href="https://asafarim.be/about" target="_blank" rel="noopener noreferrer">About</a>
         </nav>
         <div className="navbar__spacer" />
         <CountryLanguageSelector
           defaultValue={{ country: "BE", language: "nl" }}
-          persistKey="acme-demo-locale"
+          persistKey="asafarim-demo-locale"
           ariaLabel="Change country and language"
           onChange={(locale, meta) => {
             setNavbarLocale(locale);
@@ -102,7 +102,7 @@ export default function App() {
           </div>
           <pre className="mono">{JSON.stringify(navbarLocale, null, 2)}</pre>
           <div className="row">
-            <span className="chip">persistKey: acme-demo-locale</span>
+            <span className="chip">persistKey: asafarim-demo-locale</span>
             <span className="chip">Reload the page — it remembers.</span>
           </div>
         </article>

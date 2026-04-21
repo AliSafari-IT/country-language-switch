@@ -14,7 +14,7 @@ importers:
 
   apps/demo:
     dependencies:
-      '@acme/country-language-selector':
+      '@asafarim/country-language-selector':
         specifier: workspace:*
         version: link:../../packages/country-language-selector
       react:
