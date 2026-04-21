@@ -1,0 +1,21 @@
+{
+  "name": "country-language-switch",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Monorepo for @acme/country-language-selector and its demo app.",
+  "packageManager": "pnpm@10.30.0",
+  "scripts": {
+    "dev": "pnpm --filter @acme/demo dev",
+    "build": "pnpm -r build",
+    "build:pkg": "pnpm --filter @acme/country-language-selector build",
+    "dev:pkg": "pnpm --filter @acme/country-language-selector dev",
+    "typecheck": "pnpm -r typecheck",
+    "clean": "pnpm -r exec rm -rf dist node_modules .turbo"
+  },
+  "devDependencies": {
+    "typescript": "^5.6.3"
+  },
+  "engines": {
+    "node": ">=18.17"
+  }
+}
