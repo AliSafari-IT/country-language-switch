@@ -55,6 +55,7 @@ export default function App() {
         </div>
         <nav className="navbar__nav" aria-label="Primary">
           <a href="https://github.com/AliSafari-IT" target="_blank" rel="noopener noreferrer">GitHub</a>
+          <a href="https://www.npmjs.com/package/@asafarim/country-language-selector" target="_blank" rel="noopener noreferrer">NPM</a>
           <a href="https://asafarim.be/" target="_blank" rel="noopener noreferrer">Website</a>
           <a href="https://testora.asafarim.be/" target="_blank" rel="noopener noreferrer">Testora</a>
           <a href="https://asafarim.be/about" target="_blank" rel="noopener noreferrer">About</a>
