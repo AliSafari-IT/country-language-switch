@@ -4,7 +4,7 @@ A modern, accessible, reusable React + TypeScript country & language selector bu
 
 ## Demo
 
-[Country & language selector](https://country-language-selector.asafarim.be/)
+[Country & language selector](https://alisafari-it.github.io/country-language-switch/)
 
 ## Install
 
