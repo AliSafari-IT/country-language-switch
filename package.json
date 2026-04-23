@@ -1,6 +1,6 @@
 {
   "name": "country-language-switch",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "private": true,
   "description": "Monorepo for @asafarim/country-language-selector and its demo app.",
   "packageManager": "pnpm@10.30.0",
