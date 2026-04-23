@@ -1,6 +1,10 @@
-# @asafarim/country-language-selector
+# Country & language selector: @asafarim/country-language-selector
 
 A modern, accessible, reusable React + TypeScript country & language selector built for navbars. First-class support for multi-language countries (Belgium, Switzerland, Canada, …).
+
+## Demo
+
+[Country & language selector](https://country-language-selector.asafarim.be/)
 
 ## Install
 
