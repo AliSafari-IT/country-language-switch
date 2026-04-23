@@ -8,9 +8,11 @@ import {
   useMemo,
   useRef,
   useState,
+  type CSSProperties,
   type KeyboardEvent,
   type MutableRefObject,
 } from "react";
+import { createPortal } from "react-dom";
 import type {
   Country,
   CountryLanguageSelectorProps,
@@ -73,6 +75,7 @@ export const CountryLanguageSelector = forwardRef<
   const [query, setQuery] = useState("");
   const [activeIndex, setActiveIndex] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
+  const [popoverPos, setPopoverPos] = useState<{ top: number; left: number; right: number } | null>(null);
 
   const rootRef = useRef<HTMLDivElement | null>(null);
   const popoverRef = useRef<HTMLDivElement | null>(null);
@@ -89,7 +92,19 @@ export const CountryLanguageSelector = forwardRef<
   useFocusTrap(popoverRef, open);
 
   // Detect coarse pointers so we know when to show a mobile backdrop.
-  useEffect(() => setIsMobile(isCoarsePointer()), []);
+  // Also check viewport width for browser dev tools compatibility.
+  useEffect(() => {
+    const checkMobile = () => {
+      const isTouch = isCoarsePointer();
+      const isNarrow = window.matchMedia?.("(max-width: 768px)").matches ?? false;
+      setIsMobile(isTouch || isNarrow);
+    };
+
+    checkMobile();
+    const mediaQuery = window.matchMedia?.("(max-width: 768px)");
+    mediaQuery?.addEventListener?.("change", checkMobile);
+    return () => mediaQuery?.removeEventListener?.("change", checkMobile);
+  }, []);
 
   // Reset transient UI state when we open.
   useEffect(() => {
@@ -101,6 +116,30 @@ export const CountryLanguageSelector = forwardRef<
     const t = window.setTimeout(() => searchRef.current?.focus(), 10);
     return () => window.clearTimeout(t);
   }, [open]);
+
+  // Compute popover position under the trigger when portal is used.
+  useEffect(() => {
+    if (!open || !isMobile) return;
+
+    const updatePosition = () => {
+      const trigger = triggerRef.current;
+      if (!trigger) return;
+      const rect = trigger.getBoundingClientRect();
+      setPopoverPos({
+        top: rect.bottom + 8,
+        left: rect.left,
+        right: window.innerWidth - rect.right,
+      });
+    };
+
+    updatePosition();
+    window.addEventListener("scroll", updatePosition, true);
+    window.addEventListener("resize", updatePosition);
+    return () => {
+      window.removeEventListener("scroll", updatePosition, true);
+      window.removeEventListener("resize", updatePosition);
+    };
+  }, [open, isMobile]);
 
   const filtered = useMemo(() => filterCountries(countries, query), [countries, query]);
 
@@ -221,9 +260,25 @@ export const CountryLanguageSelector = forwardRef<
         <ChevronDown className="cls-trigger__chev" />
       </button>
 
-      {open && isMobile && <div className="cls-backdrop" aria-hidden="true" />}
+      {open && renderPopover()}
+    </div>
+  );
 
-      {open && (
+  function renderPopover() {
+    const portalStyle: CSSProperties | undefined =
+      isMobile && popoverPos
+        ? {
+            position: "fixed",
+            top: popoverPos.top,
+            left: align === "start" ? popoverPos.left : undefined,
+            right: align === "end" ? popoverPos.right : undefined,
+            maxHeight: `calc(100vh - ${popoverPos.top}px - 16px)`,
+          }
+        : undefined;
+
+    const popoverContent = (
+      <>
+        {isMobile && <div className="cls-backdrop" aria-hidden="true" />}
         <div
           ref={popoverRef}
           role="dialog"
@@ -232,6 +287,7 @@ export const CountryLanguageSelector = forwardRef<
           tabIndex={-1}
           className={["cls-popover", popoverClassName].filter(Boolean).join(" ")}
           onKeyDown={onListKeyDown}
+          style={portalStyle}
         >
           {step === "country" ? (
             <>
@@ -359,9 +415,19 @@ export const CountryLanguageSelector = forwardRef<
             </>
           )}
         </div>
-      )}
-    </div>
-  );
+      </>
+    );
+
+    if (isMobile && typeof document !== "undefined") {
+      return createPortal(
+        <div className={["cls-root", "cls-portal", className].filter(Boolean).join(" ")}>
+          {popoverContent}
+        </div>,
+        document.body
+      );
+    }
+    return popoverContent;
+  }
 });
 
 function TriggerContent({

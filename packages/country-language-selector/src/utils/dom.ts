@@ -26,5 +26,7 @@ export function writeStorage(key: string, value: string): void {
 /** Returns true on coarse-pointer / narrow viewports. */
 export function isCoarsePointer(): boolean {
   if (!isBrowser()) return false;
-  return window.matchMedia?.("(pointer: coarse)").matches ?? false;
+  const isTouch = window.matchMedia?.("(pointer: coarse)").matches ?? false;
+  const isNarrow = window.matchMedia?.("(max-width: 768px)").matches ?? false;
+  return isTouch || isNarrow;
 }
