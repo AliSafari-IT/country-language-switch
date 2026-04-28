@@ -1,6 +1,6 @@
 {
   "name": "@asafarim/country-language-selector",
-  "version": "0.2.3",
+  "version": "0.3.0",
   "description": "A modern, accessible, reusable React + TypeScript country & language selector for navbars.",
   "license": "MIT",
   "sideEffects": [

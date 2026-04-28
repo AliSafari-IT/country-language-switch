@@ -31,6 +31,7 @@ export default function Layout() {
           defaultValue={{ country: "BE", language: "nl" }}
           persistKey="asafarim-demo-locale"
           ariaLabel="Change country and language"
+          flagMode="image"
         />
         <button className="navbar__cta" type="button">
           Sign in

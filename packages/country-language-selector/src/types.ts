@@ -87,6 +87,22 @@ export interface CountryLanguageSelectorProps {
    */
   triggerVariant?: "compact" | "full" | "flag";
 
+  /**
+   * How country flags are rendered:
+   *   - "emoji" (default): use the emoji flag from `country.flag`. Compact and zero
+   *     network cost, but Windows browsers render these as ISO codes (e.g. `BE`)
+   *     because the Segoe UI Emoji font lacks regional indicator pairs.
+   *   - "image": fetch SVG flags from `flagcdn.com` keyed by `country.code`. Works
+   *     consistently across all platforms including Windows.
+   */
+  flagMode?: "emoji" | "image";
+
+  /**
+   * Optional custom flag renderer. Overrides `flagMode` for total control,
+   * e.g. to use a local sprite, an icon component, or your own CDN.
+   */
+  renderFlag?: (country: Country) => ReactNode;
+
   /** Align the popover to the trigger. Defaults to "end" (right-aligned). */
   align?: "start" | "end";
 

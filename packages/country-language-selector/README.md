@@ -80,6 +80,27 @@ const countries: Country[] = [
 />
 ```
 
+### Flag rendering
+
+Windows browsers don't ship regional-indicator emoji glyphs, so flags like `🇧🇪` render as plain text (`BE`). Use `flagMode="image"` to load real SVG flags from `flagcdn.com` instead:
+
+```tsx
+<CountryLanguageSelector
+  defaultValue={{ country: "BE", language: "nl" }}
+  flagMode="image"
+/>
+```
+
+For full control, use `renderFlag` to supply your own flag implementation (e.g., a local sprite, an icon library, or your own CDN):
+
+```tsx
+<CountryLanguageSelector
+  renderFlag={(country) => (
+    <img src={`/flags/${country.code}.png`} alt="" />
+  )}
+/>
+```
+
 ## Props
 
 | Prop | Type | Default | Notes |
@@ -90,6 +111,8 @@ const countries: Country[] = [
 | `onChange` | `(locale, meta) => void` | — | `meta.reason` is `"country" \| "language" \| "init" \| "reset"`. |
 | `persistKey` | `string` | — | Persists uncontrolled state to localStorage. |
 | `triggerVariant` | `"compact" \| "full" \| "flag"` | `"compact"` | Trigger rendering. |
+| `flagMode` | `"emoji" \| "image"` | `"emoji"` | How flags are rendered. |
+| `renderFlag` | `(country) => ReactNode` | — | Custom flag renderer; overrides `flagMode`. |
 | `align` | `"start" \| "end"` | `"end"` | Popover alignment. |
 | `ariaLabel` | `string` | — | Accessible label on the trigger. |
 | `renderTrigger` | `(ctx) => ReactNode` | — | Override trigger content. |

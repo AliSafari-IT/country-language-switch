@@ -133,6 +133,72 @@ export default function DemoPage() {
             <span>triggerVariant="full", align="start"</span>
           </div>
         </article>
+
+        <article className="panel panel--wide">
+          <h2>Flag rendering: emoji vs image</h2>
+          <p>
+            Windows browsers don&rsquo;t ship regional-indicator emoji glyphs, so flags
+            fall back to ISO codes (e.g. <code>BE</code>). Set <code>flagMode="image"</code>
+            {" "}to load real SVG flags from <code>flagcdn.com</code> instead — works
+            consistently across Windows, macOS, Linux, iOS, and Android.
+          </p>
+          <div className="flag-modes">
+            <div className="flag-modes__col">
+              <h3>flagMode="emoji" (default)</h3>
+              <CountryLanguageSelector
+                defaultValue={{ country: "BE", language: "nl" }}
+                triggerVariant="full"
+                align="start"
+                flagMode="emoji"
+              />
+              <p className="flag-modes__hint">
+                Zero network cost. Renders as letters on Windows.
+              </p>
+            </div>
+            <div className="flag-modes__col">
+              <h3>flagMode="image" (cross-platform)</h3>
+              <CountryLanguageSelector
+                defaultValue={{ country: "BE", language: "nl" }}
+                triggerVariant="full"
+                align="start"
+                flagMode="image"
+              />
+              <p className="flag-modes__hint">
+                SVG flags from flagcdn.com. Works on every OS.
+              </p>
+            </div>
+            <div className="flag-modes__col">
+              <h3>renderFlag (custom)</h3>
+              <CountryLanguageSelector
+                defaultValue={{ country: "BE", language: "nl" }}
+                triggerVariant="full"
+                align="start"
+                renderFlag={(c) => (
+                  <span
+                    style={{
+                      display: "inline-flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      width: 22,
+                      height: 16,
+                      borderRadius: 3,
+                      background: "linear-gradient(135deg,#6366f1,#ec4899)",
+                      color: "white",
+                      fontSize: 9,
+                      fontWeight: 700,
+                      letterSpacing: "0.02em",
+                    }}
+                  >
+                    {c.code}
+                  </span>
+                )}
+              />
+              <p className="flag-modes__hint">
+                Pass any React node — your sprite, icon library, etc.
+              </p>
+            </div>
+          </div>
+        </article>
       </section>
 
       <section className="log" aria-label="Change log">

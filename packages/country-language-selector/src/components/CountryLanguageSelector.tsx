@@ -11,6 +11,7 @@ import {
   type CSSProperties,
   type KeyboardEvent,
   type MutableRefObject,
+  type ReactNode,
 } from "react";
 import { createPortal } from "react-dom";
 import type {
@@ -27,6 +28,7 @@ import { useFocusTrap } from "../hooks/useFocusTrap";
 import { filterCountries } from "../utils/search";
 import { isCoarsePointer } from "../utils/dom";
 import { ArrowLeft, CheckIcon, ChevronDown, SearchIcon } from "./icons";
+import { CountryFlag } from "./CountryFlag";
 
 type Step = "country" | "language";
 
@@ -49,6 +51,8 @@ export const CountryLanguageSelector = forwardRef<
     persistKey,
     ariaLabel,
     triggerVariant = "compact",
+    flagMode = "emoji",
+    renderFlag,
     align = "end",
     disabled,
     className,
@@ -255,7 +259,13 @@ export const CountryLanguageSelector = forwardRef<
         {renderTrigger ? (
           renderTrigger({ country, language, open })
         ) : (
-          <TriggerContent variant={triggerVariant} country={country} language={language} />
+          <TriggerContent
+            variant={triggerVariant}
+            country={country}
+            language={language}
+            flagMode={flagMode}
+            renderFlag={renderFlag}
+          />
         )}
         <ChevronDown className="cls-trigger__chev" />
       </button>
@@ -337,9 +347,13 @@ export const CountryLanguageSelector = forwardRef<
                         onMouseEnter={() => setActiveIndex(i)}
                         onClick={() => commitCountry(c)}
                       >
-                        <span className="cls-option__flag" aria-hidden="true">
-                          {c.flag}
-                        </span>
+                        <CountryFlag
+                          country={c}
+                          mode={flagMode}
+                          render={renderFlag}
+                          size="md"
+                          className="cls-option__flag"
+                        />
                         <span className="cls-option__body">
                           <span className="cls-option__title">{c.name}</span>
                           {c.nativeName && c.nativeName !== c.name && (
@@ -375,7 +389,13 @@ export const CountryLanguageSelector = forwardRef<
                   {strings.backToCountries}
                 </button>
                 <span>
-                  {country.flag} {country.name}
+                  <CountryFlag
+                    country={country}
+                    mode={flagMode}
+                    render={renderFlag}
+                    size="sm"
+                  />{" "}
+                  {country.name}
                 </span>
               </div>
 
@@ -434,17 +454,28 @@ function TriggerContent({
   variant,
   country,
   language,
+  flagMode,
+  renderFlag,
 }: {
   variant: "compact" | "full" | "flag";
   country: Country;
   language: Language;
+  flagMode: "emoji" | "image";
+  renderFlag?: (country: Country) => ReactNode;
 }) {
+  const flag = (
+    <CountryFlag
+      country={country}
+      mode={flagMode}
+      render={renderFlag}
+      size="sm"
+      className="cls-trigger__flag"
+    />
+  );
   if (variant === "flag") {
     return (
       <>
-        <span className="cls-trigger__flag" aria-hidden="true">
-          {country.flag}
-        </span>
+        {flag}
         <span className="cls-trigger__lang">{language.code}</span>
       </>
     );
@@ -452,9 +483,7 @@ function TriggerContent({
   if (variant === "full") {
     return (
       <>
-        <span className="cls-trigger__flag" aria-hidden="true">
-          {country.flag}
-        </span>
+        {flag}
         <span className="cls-trigger__code">{country.name}</span>
         <span className="cls-trigger__sep" aria-hidden="true">
           ·
@@ -466,9 +495,7 @@ function TriggerContent({
   // compact (default)
   return (
     <>
-      <span className="cls-trigger__flag" aria-hidden="true">
-        {country.flag}
-      </span>
+      {flag}
       <span className="cls-trigger__code">{country.code}</span>
       <span className="cls-trigger__sep" aria-hidden="true">
         ·

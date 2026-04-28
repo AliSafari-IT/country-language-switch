@@ -103,6 +103,44 @@
   line-height: 1;
 }
 
+/* ---------- Flag display modes ---------- */
+
+.cls-flag {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+}
+
+.cls-flag--emoji {
+  line-height: 1;
+}
+
+.cls-flag--image {
+  width: 20px;
+  height: 14px;
+  object-fit: cover;
+  border-radius: 2px;
+  box-shadow: 0 0 0 1px rgba(15, 23, 42, 0.08);
+  background: var(--cls-bg-muted);
+}
+
+.cls-flag--image.cls-flag--sm {
+  width: 18px;
+  height: 13px;
+}
+
+.cls-flag--image.cls-flag--md {
+  width: 22px;
+  height: 16px;
+  border-radius: 3px;
+}
+
+.cls-trigger__flag.cls-flag--image {
+  width: 20px;
+  height: 14px;
+}
+
 .cls-trigger__code {
   font-weight: 600;
   letter-spacing: 0.02em;
@@ -271,6 +309,11 @@
   font-size: 18px;
   line-height: 1;
   flex: 0 0 auto;
+}
+
+.cls-option__flag.cls-flag--image {
+  width: 24px;
+  height: 18px;
 }
 
 .cls-option__body {
