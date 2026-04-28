@@ -16,7 +16,7 @@ export default function Layout() {
           <NavLink to="/get-started">
             Get Started
           </NavLink>
-          <a href="https://github.com/AliSafari-IT" target="_blank" rel="noopener noreferrer">
+          <a href="https://github.com/alisafari-it/country-language-switch" target="_blank" rel="noopener noreferrer">
             GitHub
           </a>
           <a href="https://www.npmjs.com/package/@asafarim/country-language-selector" target="_blank" rel="noopener noreferrer">
