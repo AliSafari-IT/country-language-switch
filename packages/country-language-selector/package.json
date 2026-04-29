@@ -1,6 +1,6 @@
 {
   "name": "@asafarim/country-language-selector",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "description": "A modern, accessible, reusable React + TypeScript country & language selector for navbars.",
   "license": "MIT",
   "sideEffects": [
@@ -51,5 +51,6 @@
   },
   "author": "Ali Safari <asafarim@gmail.com>",
   "homepage": "https://alisafari-it.github.io/country-language-switch/",
-  "bugs": "https://github.com/alisafari-it/country-language-switch/issues"
+  "bugs": "https://github.com/alisafari-it/country-language-switch/issues",
+  "keywords": ["language", "country", "selector", "navbar", "react","nextjs", "typescript", "asafarim"]
 }
