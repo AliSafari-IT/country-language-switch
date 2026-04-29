@@ -1,0 +1,32 @@
+{
+  "nav": {
+    "demo": "Demo",
+    "getStarted": "Loslegen",
+    "github": "GitHub",
+    "npm": "NPM",
+    "website": "Webseite",
+    "signIn": "Anmelden",
+    "primary": "Hauptnavigation"
+  },
+  "hero": {
+    "demoTitle": "Länder- und Sprachauswahl",
+    "demoSubtitle": "Eine moderne, barrierefreie Combobox, die sowohl einsprachige als auch mehrsprachige Länder wie Belgien, die Schweiz und Kanada unterstützt. Probieren Sie sie in der Navigationsleiste oben aus — oder mit den Beispielen unten.",
+    "getStartedTitle": "Loslegen",
+    "getStartedSubtitle": "Installieren Sie das Paket @asafarim/country-language-selector und fügen Sie die Combobox in eine beliebige React-Navigationsleiste ein."
+  },
+  "locale": {
+    "title": "Locale-abhängiges Routing",
+    "intro": "Wählen Sie ein Land/eine Sprache in der Navigationsleiste — die URL wird entsprechend aktualisiert.",
+    "currentUrl": "Aktuelle URL",
+    "currentLocale": "Aktuelle Locale",
+    "slugExample": "Probieren Sie: /be-nl/get-started, /be-fr/get-started, /lu-lb/get-started, /en/get-started (Fallback)",
+    "selectLocale": "Wählen Sie eine Locale"
+  },
+  "footer": {
+    "viewGithub": "Auf GitHub ansehen",
+    "mobileHint": "Fenster verkleinern, um das Bottom-Sheet-Layout zu sehen · Tab / ↑ ↓ / Enter / Esc funktionieren alle."
+  },
+  "ariaLabel": {
+    "changeCountryLanguage": "Land und Sprache ändern"
+  }
+}

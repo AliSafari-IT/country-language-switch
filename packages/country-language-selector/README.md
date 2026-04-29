@@ -4,6 +4,8 @@ A modern, accessible, reusable React + TypeScript country & language selector bu
 
 ## Demo
 
+Check out the live demo here supporting multiple languages in the selector with locale-aware routing in Benelux (Belgium, Luxembourg and Netherlands) and English as universal fallback:
+
 [Country & language selector](https://alisafari-it.github.io/country-language-switch/)
 
 ## Install
@@ -79,6 +81,37 @@ const countries: Country[] = [
   )}
 />
 ```
+
+### Locale-aware routing
+
+Pair the selector with [`@asafarim/shared-i18n`](https://www.npmjs.com/package/@asafarim/shared-i18n)
+to drive locale-prefixed URLs (e.g. `/be-nl/get-started`, `/lu-lb/get-started`,
+`/en/get-started` as the universal fallback). The demo app in this repo shows a
+working setup:
+
+```tsx
+// On selector change → push a new URL
+import { useNavigate } from "react-router-dom";
+
+const navigate = useNavigate();
+
+<CountryLanguageSelector
+  countries={beneluxCountries}
+  value={locale}
+  onChange={(next) => {
+    const slug =
+      next.country === "UN"
+        ? next.language.toLowerCase()
+        : `${next.country.toLowerCase()}-${next.language.toLowerCase()}`;
+    navigate(`/${slug}${currentSubPath}`);
+  }}
+/>;
+```
+
+The full implementation, including the `LocaleLayout` route, slug parser, and
+Benelux translation JSON files, lives in
+[`apps/demo/src/i18n`](https://github.com/AliSafari-IT/country-language-switch/tree/main/apps/demo/src/i18n)
+and [`apps/demo/src/components/LocaleLayout.tsx`](https://github.com/AliSafari-IT/country-language-switch/blob/main/apps/demo/src/components/LocaleLayout.tsx).
 
 ### Flag rendering
 

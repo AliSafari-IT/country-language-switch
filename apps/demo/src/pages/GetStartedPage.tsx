@@ -1,12 +1,12 @@
+import { useTranslation } from "@asafarim/shared-i18n";
+
 export default function GetStartedPage() {
+  const { t } = useTranslation();
   return (
     <div className="get-started">
       <section className="hero">
-        <h1>Get Started</h1>
-        <p>
-          Install the <code>@asafarim/country-language-selector</code> package and drop
-          the combobox into any React navbar.
-        </p>
+        <h1>{t("hero.getStartedTitle")}</h1>
+        <p>{t("hero.getStartedSubtitle")}</p>
       </section>
 
       <div className="panels">
@@ -185,7 +185,9 @@ const myCountries: Country[] = [
       </div>
 
       <footer className="footer">
-        <a href="https://github.com/AliSafari-IT/country-language-switch">View on GitHub</a>
+        <a href="https://github.com/AliSafari-IT/country-language-switch">
+          {t("footer.viewGithub")}
+        </a>
       </footer>
     </div>
   );

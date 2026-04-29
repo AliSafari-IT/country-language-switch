@@ -1,6 +1,6 @@
 {
   "name": "@asafarim/country-language-selector",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "A modern, accessible, reusable React + TypeScript country & language selector for navbars.",
   "license": "MIT",
   "sideEffects": [
@@ -49,7 +49,7 @@
     "url": "https://github.com/alisafari-it/country-language-switch.git",
     "directory": "packages/country-language-selector"
   },
-  "author": "Asaf Arieli <asafarim@gmail.com>",
+  "author": "Ali Safari <asafarim@gmail.com>",
   "homepage": "https://alisafari-it.github.io/country-language-switch/",
   "bugs": "https://github.com/alisafari-it/country-language-switch/issues"
 }

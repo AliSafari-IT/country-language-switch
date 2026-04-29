@@ -1,0 +1,32 @@
+{
+  "nav": {
+    "demo": "Demo",
+    "getStarted": "Lass lass",
+    "github": "GitHub",
+    "npm": "NPM",
+    "website": "Websäit",
+    "signIn": "Umellen",
+    "primary": "Haaptnavigatioun"
+  },
+  "hero": {
+    "demoTitle": "Land- a Sproochwieler",
+    "demoSubtitle": "Eng modern, zougänglech Combobox, déi souwuel eesproocheg wéi méisproocheg Länner wéi Belsch, Schwäiz a Kanada ënnerstëtzt. Probéiert se an der Navigatiounsbar uewen — oder mat de Beispiller hei ënnen.",
+    "getStartedTitle": "Lass lass",
+    "getStartedSubtitle": "Installéiert de Paquet @asafarim/country-language-selector an setzt d'Combobox an all React-Navigatiounsbar."
+  },
+  "locale": {
+    "title": "Locale-ofhängeg Routing",
+    "intro": "Wielt e Land/eng Sprooch an der Navigatiounsbar — d'URL passt sech automatesch un.",
+    "currentUrl": "Aktuell URL",
+    "currentLocale": "Aktuell Locale",
+    "slugExample": "Probéiert: /be-nl/get-started, /be-fr/get-started, /lu-lb/get-started, /en/get-started (Standard)",
+    "selectLocale": "Wielt eng Locale"
+  },
+  "footer": {
+    "viewGithub": "Um GitHub kucken",
+    "mobileHint": "Reduzéiert d'Fënster fir d'Bottom-Sheet Layout ze gesinn · Tab / ↑ ↓ / Enter / Esc funktionéieren all."
+  },
+  "ariaLabel": {
+    "changeCountryLanguage": "Land a Sprooch änneren"
+  }
+}

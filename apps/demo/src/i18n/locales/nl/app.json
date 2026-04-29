@@ -1,0 +1,32 @@
+{
+  "nav": {
+    "demo": "Demo",
+    "getStarted": "Aan de slag",
+    "github": "GitHub",
+    "npm": "NPM",
+    "website": "Website",
+    "signIn": "Inloggen",
+    "primary": "Primair"
+  },
+  "hero": {
+    "demoTitle": "Land- en taalselector",
+    "demoSubtitle": "Een moderne, toegankelijke combobox die zowel eentalige als meertalige landen zoals België, Zwitserland en Canada ondersteunt. Probeer het uit in de navigatiebalk hierboven — of met de voorbeelden hieronder.",
+    "getStartedTitle": "Aan de slag",
+    "getStartedSubtitle": "Installeer het pakket @asafarim/country-language-selector en voeg de combobox toe aan een React-navigatiebalk."
+  },
+  "locale": {
+    "title": "Routering op taal",
+    "intro": "Kies een land/taal in de navigatiebalk — de URL wordt aangepast.",
+    "currentUrl": "Huidige URL",
+    "currentLocale": "Huidige taal",
+    "slugExample": "Probeer: /be-nl/get-started, /be-fr/get-started, /lu-lb/get-started, /en/get-started (terugval)",
+    "selectLocale": "Kies een taal"
+  },
+  "footer": {
+    "viewGithub": "Bekijk op GitHub",
+    "mobileHint": "Verklein het venster om de bottom-sheet weergave te zien · Tab / ↑ ↓ / Enter / Esc werken allemaal."
+  },
+  "ariaLabel": {
+    "changeCountryLanguage": "Land en taal wijzigen"
+  }
+}

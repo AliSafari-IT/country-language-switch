@@ -3,9 +3,10 @@
   "version": "1.1.1",
   "private": true,
   "description": "Monorepo for @asafarim/country-language-selector and its demo app.",
-  "packageManager": "pnpm@10.30.0",
+  "packageManager": "pnpm@10.33.2",
   "scripts": {
     "prepare": "pnpm --filter @asafarim/country-language-selector build",
+    "predev": "pnpm install && kill-port 5173",
     "dev": "pnpm --filter @asafarim/demo dev",
     "build": "pnpm -r build",
     "build:pkg": "pnpm --filter @asafarim/country-language-selector build",
@@ -14,7 +15,8 @@
     "clean": "pnpm -r exec rm -rf dist node_modules .turbo"
   },
   "devDependencies": {
-    "typescript": "^5.6.3"
+    "typescript": "^5.6.3",
+    "kill-port": "^2.0.1"
   },
   "engines": {
     "node": ">=18.17"

@@ -56,3 +56,30 @@ ARIA combobox + listbox semantics, focus trap, escape-to-close.
 
 See [`packages/country-language-selector/README.md`](./packages/country-language-selector/README.md)
 for the detailed API.
+
+## Demo: locale-aware routing
+
+The demo app under [`apps/demo`](./apps/demo) showcases locale-dependent
+routing by combining `@asafarim/country-language-selector` with
+[`@asafarim/shared-i18n`](https://www.npmjs.com/package/@asafarim/shared-i18n).
+The URL slug encodes both country and language using a `{country}-{language}`
+pattern (or a bare `en` for the universal English fallback):
+
+| Selection                       | URL                                |
+| ------------------------------- | ---------------------------------- |
+| 🇧🇪 Belgium · Dutch              | `/be-nl/get-started`               |
+| 🇧🇪 Belgium · French             | `/be-fr/get-started`               |
+| 🇧🇪 Belgium · German             | `/be-de/get-started`               |
+| 🇧🇪 Belgium · English            | `/be-en/get-started`               |
+| 🇳🇱 Netherlands · Dutch          | `/nl-nl/get-started`               |
+| 🇱🇺 Luxembourg · Luxembourgish   | `/lu-lb/get-started`               |
+| 🌐 International · English      | `/en/get-started` (fallback)       |
+
+The demo only ships translations for the **Benelux** countries (Belgium, the
+Netherlands and Luxembourg) plus a universal English fallback. Translation
+JSON files live under [`apps/demo/src/i18n/locales`](./apps/demo/src/i18n/locales)
+and are wired up via `setupI18n()` in
+[`apps/demo/src/i18n/index.ts`](./apps/demo/src/i18n/index.ts). The
+`LocaleLayout` route ([`apps/demo/src/components/LocaleLayout.tsx`](./apps/demo/src/components/LocaleLayout.tsx))
+validates the `:localeSlug` URL param, syncs the active i18next language, and
+redirects unknown slugs to the default locale.

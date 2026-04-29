@@ -1,10 +1,14 @@
 import { useState } from "react";
+import { useLocation } from "react-router-dom";
 import {
   CountryLanguageSelector,
   defaultCountries,
   type Locale,
   type LocaleChangeMeta,
 } from "@asafarim/country-language-selector";
+import { useTranslation } from "@asafarim/shared-i18n";
+import { ALL_LOCALE_SLUGS, BENELUX_COUNTRIES } from "../i18n";
+import { useLocaleContext } from "../hooks/useLocaleContext";
 
 interface LogEntry {
   id: number;
@@ -14,7 +18,10 @@ interface LogEntry {
 }
 
 export default function DemoPage() {
-  const [navbarLocale, setNavbarLocale] = useState<Locale>({
+  const { t } = useTranslation();
+  const location = useLocation();
+  const { locale: routeLocale, slug: routeSlug } = useLocaleContext();
+  const [navbarLocale] = useState<Locale>({
     country: "BE",
     language: "nl",
   });
@@ -47,12 +54,8 @@ export default function DemoPage() {
   return (
     <>
       <section className="hero">
-        <h1>Country &amp; language selector</h1>
-        <p>
-          A modern, accessible combobox-style selector that handles single-language
-          countries as well as multi-language ones like Belgium, Switzerland, and
-          Canada. Try it in the navbar above — or with the two examples below.
-        </p>
+        <h1>{t("hero.demoTitle")}</h1>
+        <p>{t("hero.demoSubtitle")}</p>
         <div className="chips">
           <span className="chip">🇧🇪 Belgium · NL / FR / DE / EN</span>
           <span className="chip">🇨🇭 Switzerland · DE / FR / IT / EN</span>
@@ -64,6 +67,46 @@ export default function DemoPage() {
       </section>
 
       <section className="panels" aria-label="State">
+        <article className="panel panel--wide locale-panel">
+          <h2>{t("locale.title")}</h2>
+          <p>{t("locale.intro")}</p>
+          <div className="locale-grid">
+            <div>
+              <strong>{t("locale.currentLocale")}</strong>
+              <pre className="mono">
+{JSON.stringify({ slug: routeSlug, ...routeLocale }, null, 2)}
+              </pre>
+            </div>
+            <div>
+              <strong>{t("locale.currentUrl")}</strong>
+              <pre className="mono">{location.pathname}</pre>
+            </div>
+          </div>
+          <p className="flag-modes__hint">{t("locale.slugExample")}</p>
+          <div className="locale-slugs">
+            {ALL_LOCALE_SLUGS.map((s) => (
+              <a key={s} className="chip" href={`#/${s}`}>
+                {s}
+              </a>
+            ))}
+          </div>
+          <div className="inline-selector" style={{ marginTop: 12 }}>
+            <CountryLanguageSelector
+              countries={BENELUX_COUNTRIES}
+              value={routeLocale}
+              triggerVariant="full"
+              flagMode="image"
+              align="start"
+              ariaLabel={t("locale.selectLocale")}
+              onChange={(next, meta) => {
+                // The navbar instance owns navigation; this inline copy only logs.
+                pushLog(next, meta);
+              }}
+            />
+            <span>{t("locale.selectLocale")}</span>
+          </div>
+        </article>
+
         <article className="panel">
           <h2>Navbar selection (uncontrolled + persisted)</h2>
           <div className="big">
@@ -217,9 +260,7 @@ export default function DemoPage() {
         </div>
       </section>
 
-      <footer className="footer">
-        Resize to mobile width to see the bottom-sheet layout · Tab / ↑ ↓ / Enter / Esc all work.
-      </footer>
+      <footer className="footer">{t("footer.mobileHint")}</footer>
     </>
   );
 }

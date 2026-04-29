@@ -1,0 +1,32 @@
+{
+  "nav": {
+    "demo": "Demo",
+    "getStarted": "Get Started",
+    "github": "GitHub",
+    "npm": "NPM",
+    "website": "Website",
+    "signIn": "Sign in",
+    "primary": "Primary"
+  },
+  "hero": {
+    "demoTitle": "Country & language selector",
+    "demoSubtitle": "A modern, accessible combobox that handles single-language countries as well as multi-language ones like Belgium, Switzerland, and Canada. Try it in the navbar above — or with the examples below.",
+    "getStartedTitle": "Get Started",
+    "getStartedSubtitle": "Install the @asafarim/country-language-selector package and drop the combobox into any React navbar."
+  },
+  "locale": {
+    "title": "Locale-aware routing",
+    "intro": "Pick a country/language in the navbar — the URL updates to match.",
+    "currentUrl": "Current URL",
+    "currentLocale": "Current locale",
+    "slugExample": "Try: /be-nl/get-started, /be-fr/get-started, /lu-lb/get-started, /en/get-started (fallback)",
+    "selectLocale": "Select a locale"
+  },
+  "footer": {
+    "viewGithub": "View on GitHub",
+    "mobileHint": "Resize to mobile width to see the bottom-sheet layout · Tab / ↑ ↓ / Enter / Esc all work."
+  },
+  "ariaLabel": {
+    "changeCountryLanguage": "Change country and language"
+  }
+}

@@ -151,6 +151,58 @@ body,
   line-height: 1.45;
 }
 
+/* ---------- Locale routing panel ---------- */
+
+.locale-panel {
+  background: linear-gradient(
+    135deg,
+    color-mix(in srgb, var(--demo-accent, #6366f1) 10%, transparent),
+    color-mix(in srgb, var(--demo-accent, #6366f1) 2%, transparent)
+  );
+  border: 1px solid color-mix(in srgb, var(--demo-accent, #6366f1) 25%, transparent);
+}
+
+.locale-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 14px;
+  margin-top: 12px;
+}
+
+.locale-grid > div {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.locale-grid strong {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--demo-muted, #6b7280);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.locale-slugs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 12px;
+}
+
+.locale-slugs .chip {
+  text-decoration: none;
+  font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  font-size: 12px;
+  cursor: pointer;
+  transition: background 120ms ease, color 120ms ease;
+}
+
+.locale-slugs .chip:hover {
+  background: color-mix(in srgb, var(--demo-accent, #6366f1) 18%, transparent);
+  color: var(--demo-accent, #6366f1);
+}
+
 .get-started .panel p {
   color: var(--demo-muted);
   margin: 8px 0 12px;
