@@ -61,6 +61,17 @@ export default function Layout() {
             navigate(`/${nextSlug}${subPath}`);
           }}
         />
+        <CountryLanguageSelector
+          countries={BENELUX_COUNTRIES}
+          value={locale}
+          triggerVariant="flag"
+          ariaLabel={t("ariaLabel.changeCountryLanguage")}
+          flagMode="image"
+          onChange={(next) => {
+            const nextSlug = toLocaleSlug(next);
+            navigate(`/${nextSlug}${subPath}`);
+          }}
+        />
         <button className="navbar__cta" type="button">
           {t("nav.signIn")}
         </button>
