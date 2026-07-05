@@ -30,6 +30,12 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
+      - name: Typecheck
+        run: pnpm --filter @asafarim/country-language-selector typecheck
+
+      - name: Test
+        run: pnpm --filter @asafarim/country-language-selector test
+
       - name: Build package
         run: pnpm --filter @asafarim/country-language-selector build
 
@@ -38,10 +44,10 @@ jobs:
         run: |
           PACKAGE_VERSION=$(node -p "require('./packages/country-language-selector/package.json').version")
           PUBLISHED_VERSION=$(npm view @asafarim/country-language-selector version 2>/dev/null || echo "none")
-          
+
           echo "Package version: $PACKAGE_VERSION"
           echo "Published version: $PUBLISHED_VERSION"
-          
+
           if [ "$PACKAGE_VERSION" = "$PUBLISHED_VERSION" ]; then
             echo "Version unchanged, skipping publish"
             echo "should_publish=false" >> $GITHUB_OUTPUT

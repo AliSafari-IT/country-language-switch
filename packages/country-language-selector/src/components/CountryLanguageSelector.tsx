@@ -63,7 +63,7 @@ export const CountryLanguageSelector = forwardRef<
 
   const strings: SelectorStrings = useMemo(
     () => ({ ...defaultStrings, ...(stringsProp ?? {}) }),
-    [stringsProp]
+    [stringsProp],
   );
 
   const { country, language, setCountry, setLanguage } = useCountryLanguage({
@@ -79,7 +79,11 @@ export const CountryLanguageSelector = forwardRef<
   const [query, setQuery] = useState("");
   const [activeIndex, setActiveIndex] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
-  const [popoverPos, setPopoverPos] = useState<{ top: number; left: number; right: number } | null>(null);
+  const [popoverPos, setPopoverPos] = useState<{
+    top: number;
+    left: number;
+    right: number;
+  } | null>(null);
 
   const rootRef = useRef<HTMLDivElement | null>(null);
   const popoverRef = useRef<HTMLDivElement | null>(null);
@@ -100,7 +104,8 @@ export const CountryLanguageSelector = forwardRef<
   useEffect(() => {
     const checkMobile = () => {
       const isTouch = isCoarsePointer();
-      const isNarrow = window.matchMedia?.("(max-width: 768px)").matches ?? false;
+      const isNarrow =
+        window.matchMedia?.("(max-width: 768px)").matches ?? false;
       setIsMobile(isTouch || isNarrow);
     };
 
@@ -145,7 +150,10 @@ export const CountryLanguageSelector = forwardRef<
     };
   }, [open, isMobile]);
 
-  const filtered = useMemo(() => filterCountries(countries, query), [countries, query]);
+  const filtered = useMemo(
+    () => filterCountries(countries, query),
+    [countries, query],
+  );
 
   // Clamp the active index whenever the filtered list changes.
   useEffect(() => {
@@ -158,17 +166,32 @@ export const CountryLanguageSelector = forwardRef<
     requestAnimationFrame(() => triggerRef.current?.focus());
   }, []);
 
+  // Move focus to the popover shell when entering the language step. The search
+  // input unmounts on that step, so without this focus would fall back to
+  // <body> and both keyboard navigation and the focus trap would stop working.
+  const goToLanguageStep = useCallback(() => {
+    setStep("language");
+    setActiveIndex(0);
+    requestAnimationFrame(() => popoverRef.current?.focus());
+  }, []);
+
+  // Return to the country step and restore focus to the search input.
+  const goToCountryStep = useCallback(() => {
+    setStep("country");
+    setActiveIndex(0);
+    requestAnimationFrame(() => searchRef.current?.focus());
+  }, []);
+
   const commitCountry = useCallback(
     (c: Country) => {
       setCountry(c.code);
       if (c.languages.length > 1) {
-        setStep("language");
-        setActiveIndex(0);
+        goToLanguageStep();
       } else {
         closeAndRefocus();
       }
     },
-    [setCountry, closeAndRefocus]
+    [setCountry, closeAndRefocus, goToLanguageStep],
   );
 
   const commitLanguage = useCallback(
@@ -176,7 +199,7 @@ export const CountryLanguageSelector = forwardRef<
       setLanguage(l.code);
       closeAndRefocus();
     },
-    [setLanguage, closeAndRefocus]
+    [setLanguage, closeAndRefocus],
   );
 
   const onTriggerKeyDown = useCallback(
@@ -192,7 +215,7 @@ export const CountryLanguageSelector = forwardRef<
         setOpen(true);
       }
     },
-    [disabled]
+    [disabled],
   );
 
   const onListKeyDown = useCallback(
@@ -223,11 +246,20 @@ export const CountryLanguageSelector = forwardRef<
         closeAndRefocus();
       } else if (e.key === "Backspace" && step === "language" && !query) {
         e.preventDefault();
-        setStep("country");
-        setActiveIndex(0);
+        goToCountryStep();
       }
     },
-    [step, filtered, country, activeIndex, commitCountry, commitLanguage, closeAndRefocus, query]
+    [
+      step,
+      filtered,
+      country,
+      activeIndex,
+      commitCountry,
+      commitLanguage,
+      closeAndRefocus,
+      goToCountryStep,
+      query,
+    ],
   );
 
   // Ensure the active option scrolls into view during keyboard navigation.
@@ -241,7 +273,8 @@ export const CountryLanguageSelector = forwardRef<
       ref={(el) => {
         rootRef.current = el;
         if (typeof ref === "function") ref(el);
-        else if (ref) (ref as MutableRefObject<HTMLDivElement | null>).current = el;
+        else if (ref)
+          (ref as MutableRefObject<HTMLDivElement | null>).current = el;
       }}
       className={["cls-root", className].filter(Boolean).join(" ")}
     >
@@ -295,7 +328,9 @@ export const CountryLanguageSelector = forwardRef<
           aria-label={strings.ariaLabel}
           data-align={align}
           tabIndex={-1}
-          className={["cls-popover", popoverClassName].filter(Boolean).join(" ")}
+          className={["cls-popover", popoverClassName]
+            .filter(Boolean)
+            .join(" ")}
           onKeyDown={onListKeyDown}
           style={portalStyle}
         >
@@ -357,14 +392,20 @@ export const CountryLanguageSelector = forwardRef<
                         <span className="cls-option__body">
                           <span className="cls-option__title">{c.name}</span>
                           {c.nativeName && c.nativeName !== c.name && (
-                            <span className="cls-option__subtitle">{c.nativeName}</span>
+                            <span className="cls-option__subtitle">
+                              {c.nativeName}
+                            </span>
                           )}
                         </span>
                         <span className="cls-option__meta">
                           {c.languages.length > 1 ? (
-                            <span className="cls-badge">{c.languages.length} langs</span>
+                            <span className="cls-badge">
+                              {c.languages.length} langs
+                            </span>
                           ) : (
-                            <span className="cls-badge">{c.languages[0]!.code.toUpperCase()}</span>
+                            <span className="cls-badge">
+                              {c.languages[0]!.code.toUpperCase()}
+                            </span>
                           )}
                           {selected && <CheckIcon className="cls-check" />}
                         </span>
@@ -380,10 +421,7 @@ export const CountryLanguageSelector = forwardRef<
                 <button
                   type="button"
                   className="cls-back"
-                  onClick={() => {
-                    setStep("country");
-                    setActiveIndex(0);
-                  }}
+                  onClick={goToCountryStep}
                 >
                   <ArrowLeft width={12} height={12} />
                   {strings.backToCountries}
@@ -421,11 +459,15 @@ export const CountryLanguageSelector = forwardRef<
                       <span className="cls-option__body">
                         <span className="cls-option__title">{l.label}</span>
                         {l.nativeLabel && l.nativeLabel !== l.label && (
-                          <span className="cls-option__subtitle">{l.nativeLabel}</span>
+                          <span className="cls-option__subtitle">
+                            {l.nativeLabel}
+                          </span>
                         )}
                       </span>
                       <span className="cls-option__meta">
-                        <span className="cls-badge">{l.code.toUpperCase()}</span>
+                        <span className="cls-badge">
+                          {l.code.toUpperCase()}
+                        </span>
                         {selected && <CheckIcon className="cls-check" />}
                       </span>
                     </li>
@@ -440,10 +482,14 @@ export const CountryLanguageSelector = forwardRef<
 
     if (isMobile && typeof document !== "undefined") {
       return createPortal(
-        <div className={["cls-root", "cls-portal", className].filter(Boolean).join(" ")}>
+        <div
+          className={["cls-root", "cls-portal", className]
+            .filter(Boolean)
+            .join(" ")}
+        >
           {popoverContent}
         </div>,
-        document.body
+        document.body,
       );
     }
     return popoverContent;

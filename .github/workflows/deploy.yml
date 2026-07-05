@@ -35,6 +35,12 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
+      - name: Typecheck
+        run: pnpm --filter @asafarim/country-language-selector typecheck
+
+      - name: Test
+        run: pnpm --filter @asafarim/country-language-selector test
+
       - name: Build package
         run: pnpm --filter @asafarim/country-language-selector build
 

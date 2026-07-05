@@ -27,19 +27,28 @@
   "scripts": {
     "build": "tsup",
     "dev": "tsup --watch",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest"
   },
   "peerDependencies": {
     "react": ">=18",
     "react-dom": ">=18"
   },
   "devDependencies": {
+    "@testing-library/dom": "^10.4.0",
+    "@testing-library/jest-dom": "^6.6.3",
+    "@testing-library/react": "^16.1.0",
+    "@testing-library/user-event": "^14.5.2",
     "@types/react": "^18.3.12",
     "@types/react-dom": "^18.3.1",
+    "@vitejs/plugin-react": "^4.3.3",
+    "jsdom": "^25.0.1",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "tsup": "^8.3.5",
-    "typescript": "^5.6.3"
+    "typescript": "^5.6.3",
+    "vitest": "^2.1.8"
   },
   "publishConfig": {
     "access": "public"
@@ -52,5 +61,14 @@
   "author": "Ali Safari <asafarim@gmail.com>",
   "homepage": "https://alisafari-it.github.io/country-language-switch/",
   "bugs": "https://github.com/alisafari-it/country-language-switch/issues",
-  "keywords": ["language", "country", "selector", "navbar", "react","nextjs", "typescript", "asafarim"]
+  "keywords": [
+    "language",
+    "country",
+    "selector",
+    "navbar",
+    "react",
+    "nextjs",
+    "typescript",
+    "asafarim"
+  ]
 }
