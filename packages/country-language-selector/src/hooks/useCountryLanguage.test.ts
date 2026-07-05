@@ -56,9 +56,13 @@ describe("useCountryLanguage — initialisation", () => {
   });
 
   it("throws when the countries list is empty", () => {
+    // React logs the render error to console.error even though we catch it;
+    // silence it so the intentional throw doesn't clutter test output.
+    const spy = vi.spyOn(console, "error").mockImplementation(() => {});
     expect(() =>
       renderHook(() => useCountryLanguage({ countries: [] })),
     ).toThrow(/must contain at least one entry/);
+    spy.mockRestore();
   });
 });
 

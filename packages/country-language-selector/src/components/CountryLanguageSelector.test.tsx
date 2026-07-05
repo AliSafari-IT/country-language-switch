@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from "vitest";
-import { render, screen, within } from "@testing-library/react";
+import { render, screen, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { CountryLanguageSelector } from "./CountryLanguageSelector";
 import type { Country } from "../types";
@@ -9,13 +9,28 @@ const fr = { code: "fr", label: "French", nativeLabel: "Français" };
 const nl = { code: "nl", label: "Dutch", nativeLabel: "Nederlands" };
 
 const countries: Country[] = [
-  { code: "BE", name: "Belgium", nativeName: "België", flag: "🇧🇪", languages: [nl, fr, en] },
+  {
+    code: "BE",
+    name: "Belgium",
+    nativeName: "België",
+    flag: "🇧🇪",
+    languages: [nl, fr, en],
+  },
   { code: "NL", name: "Netherlands", flag: "🇳🇱", languages: [nl] },
   { code: "FR", name: "France", flag: "🇫🇷", languages: [fr, en] },
 ];
 
 function openPopover() {
-  return userEvent.click(screen.getByRole("button", { name: /select country/i }));
+  return userEvent.click(
+    screen.getByRole("button", { name: /select country/i }),
+  );
+}
+
+// Opening focuses the search input on a short timeout so the animation settles.
+// Wait for that so keyboard events reliably land inside the popover on CI.
+async function openAndFocus() {
+  await openPopover();
+  await waitFor(() => expect(screen.getByRole("combobox")).toHaveFocus());
 }
 
 describe("CountryLanguageSelector — trigger", () => {
@@ -24,7 +39,7 @@ describe("CountryLanguageSelector — trigger", () => {
       <CountryLanguageSelector
         countries={countries}
         defaultValue={{ country: "BE", language: "fr" }}
-      />
+      />,
     );
     const trigger = screen.getByRole("button", { name: /select country/i });
     expect(trigger).toHaveTextContent("BE");
@@ -50,7 +65,9 @@ describe("CountryLanguageSelector — trigger", () => {
 describe("CountryLanguageSelector — country selection", () => {
   it("commits immediately for a single-language country and closes", async () => {
     const onChange = vi.fn();
-    render(<CountryLanguageSelector countries={countries} onChange={onChange} />);
+    render(
+      <CountryLanguageSelector countries={countries} onChange={onChange} />,
+    );
     onChange.mockClear();
     await openPopover();
     await userEvent.click(screen.getByRole("option", { name: /netherlands/i }));
@@ -58,7 +75,7 @@ describe("CountryLanguageSelector — country selection", () => {
     expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
     expect(onChange).toHaveBeenCalledWith(
       { country: "NL", language: "nl" },
-      expect.objectContaining({ reason: "country" })
+      expect.objectContaining({ reason: "country" }),
     );
   });
 
@@ -70,12 +87,16 @@ describe("CountryLanguageSelector — country selection", () => {
     // Still open, now showing languages.
     expect(screen.getByRole("dialog")).toBeInTheDocument();
     expect(screen.getByRole("option", { name: /french/i })).toBeInTheDocument();
-    expect(screen.getByRole("option", { name: /english/i })).toBeInTheDocument();
+    expect(
+      screen.getByRole("option", { name: /english/i }),
+    ).toBeInTheDocument();
   });
 
   it("commits the chosen language and closes", async () => {
     const onChange = vi.fn();
-    render(<CountryLanguageSelector countries={countries} onChange={onChange} />);
+    render(
+      <CountryLanguageSelector countries={countries} onChange={onChange} />,
+    );
     onChange.mockClear();
     await openPopover();
     await userEvent.click(screen.getByRole("option", { name: /france/i }));
@@ -84,7 +105,7 @@ describe("CountryLanguageSelector — country selection", () => {
     expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
     expect(onChange).toHaveBeenLastCalledWith(
       { country: "FR", language: "en" },
-      expect.objectContaining({ reason: "language" })
+      expect.objectContaining({ reason: "language" }),
     );
   });
 });
@@ -96,8 +117,12 @@ describe("CountryLanguageSelector — search", () => {
     await userEvent.type(screen.getByRole("combobox"), "belg");
 
     const list = screen.getByRole("listbox");
-    expect(within(list).getByRole("option", { name: /belgium/i })).toBeInTheDocument();
-    expect(within(list).queryByRole("option", { name: /france/i })).not.toBeInTheDocument();
+    expect(
+      within(list).getByRole("option", { name: /belgium/i }),
+    ).toBeInTheDocument();
+    expect(
+      within(list).queryByRole("option", { name: /france/i }),
+    ).not.toBeInTheDocument();
   });
 
   it("shows an empty state when nothing matches", async () => {
@@ -111,34 +136,38 @@ describe("CountryLanguageSelector — search", () => {
 describe("CountryLanguageSelector — keyboard navigation", () => {
   it("navigates and commits countries with the keyboard", async () => {
     const onChange = vi.fn();
-    render(<CountryLanguageSelector countries={countries} onChange={onChange} />);
+    render(
+      <CountryLanguageSelector countries={countries} onChange={onChange} />,
+    );
     onChange.mockClear();
-    await openPopover();
+    await openAndFocus();
 
     // First option (Belgium) is active; move down to Netherlands and commit.
     await userEvent.keyboard("{ArrowDown}{Enter}");
     expect(onChange).toHaveBeenCalledWith(
       { country: "NL", language: "nl" },
-      expect.objectContaining({ reason: "country" })
+      expect.objectContaining({ reason: "country" }),
     );
   });
 
   it("keeps keyboard navigation working after switching to the language step (regression)", async () => {
     const onChange = vi.fn();
-    render(<CountryLanguageSelector countries={countries} onChange={onChange} />);
+    render(
+      <CountryLanguageSelector countries={countries} onChange={onChange} />,
+    );
     onChange.mockClear();
     await openPopover();
 
     // Enter the language step by choosing a multi-language country.
     await userEvent.click(screen.getByRole("option", { name: /france/i }));
-    expect(screen.getByRole("dialog")).toBeInTheDocument();
 
     // Focus must have moved into the popover so arrow keys still work even
     // though the search input unmounted on this step.
+    await waitFor(() => expect(screen.getByRole("dialog")).toHaveFocus());
     await userEvent.keyboard("{ArrowDown}{Enter}");
     expect(onChange).toHaveBeenLastCalledWith(
       { country: "FR", language: "en" },
-      expect.objectContaining({ reason: "language" })
+      expect.objectContaining({ reason: "language" }),
     );
   });
 
@@ -146,8 +175,9 @@ describe("CountryLanguageSelector — keyboard navigation", () => {
     render(<CountryLanguageSelector countries={countries} />);
     await openPopover();
     await userEvent.click(screen.getByRole("option", { name: /france/i }));
-    // In the language step now.
+    // In the language step now; wait for focus to land in the popover.
     expect(screen.getByRole("option", { name: /french/i })).toBeInTheDocument();
+    await waitFor(() => expect(screen.getByRole("dialog")).toHaveFocus());
 
     await userEvent.keyboard("{Backspace}");
     // Back on the country step: the search combobox is visible again.
@@ -172,7 +202,7 @@ describe("CountryLanguageSelector — customisation", () => {
         renderTrigger={({ country, language }) => (
           <span>{`${country.name}/${language.label}`}</span>
         )}
-      />
+      />,
     );
     expect(screen.getByText("France/French")).toBeInTheDocument();
   });
@@ -182,7 +212,7 @@ describe("CountryLanguageSelector — customisation", () => {
       <CountryLanguageSelector
         countries={countries}
         strings={{ searchPlaceholder: "Rechercher…" }}
-      />
+      />,
     );
     await openPopover();
     expect(screen.getByPlaceholderText("Rechercher…")).toBeInTheDocument();
@@ -190,9 +220,11 @@ describe("CountryLanguageSelector — customisation", () => {
 
   it("renders SVG flags in image mode", () => {
     const { container } = render(
-      <CountryLanguageSelector countries={countries} flagMode="image" />
+      <CountryLanguageSelector countries={countries} flagMode="image" />,
     );
-    const img = container.querySelector("img.cls-flag--image") as HTMLImageElement;
+    const img = container.querySelector(
+      "img.cls-flag--image",
+    ) as HTMLImageElement;
     expect(img).toBeInTheDocument();
     expect(img.src).toContain("flagcdn.com/be.svg");
   });
