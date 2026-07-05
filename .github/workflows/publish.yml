@@ -61,6 +61,13 @@ jobs:
       # is brittle with pnpm and silently produces anonymous requests, which
       # npm answers with a misleading E404 on scoped packages. Instead we write
       # the resolved token directly to the .npmrc pnpm will actually read.
+      #
+      # IMPORTANT: NPM_TOKEN must be a classic *Automation* token
+      # (npmjs.com -> Access Tokens -> Generate New Token -> Classic ->
+      # Automation). Automation tokens bypass the account's two-factor / OTP
+      # requirement in CI. A "Publish" token or a granular token that still
+      # enforces 2FA will fail here with `EOTP` (one-time password required),
+      # which cannot be satisfied from a non-interactive runner.
       - name: Configure npm authentication
         if: steps.version-check.outputs.should_publish == 'true'
         run: |
