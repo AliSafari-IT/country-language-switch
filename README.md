@@ -27,6 +27,28 @@ pnpm dev:pkg        # tsup --watch on the library
 pnpm dev            # Vite dev server on the demo
 ```
 
+## Scripts
+
+Run from the repo root:
+
+| Script            | Description                                              |
+| ----------------- | -------------------------------------------------------- |
+| `pnpm build`      | Build every workspace package.                           |
+| `pnpm build:pkg`  | Build only the library.                                  |
+| `pnpm dev`        | Run the demo app (Vite) on http://localhost:5173.        |
+| `pnpm dev:pkg`    | Rebuild the library on change (tsup watch).              |
+| `pnpm typecheck`  | Type-check every workspace package.                      |
+| `pnpm test`       | Run the library's Vitest suite.                          |
+| `pnpm clean`      | Remove `dist`, `node_modules`, and `.turbo` everywhere.  |
+
+## Testing & CI
+
+The library is covered by a [Vitest](https://vitest.dev/) + Testing Library
+suite (search ranking, the `useCountryLanguage` state machine, and component
+behaviour including keyboard navigation and cross-step focus management). Run it
+with `pnpm test`. GitHub Actions type-checks and runs this suite before either
+publishing the package to npm or deploying the demo to GitHub Pages.
+
 ## Reusing in a Next.js app
 
 The package ships ESM + CJS + types and has `"use client"` annotations on the

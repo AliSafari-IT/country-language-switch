@@ -166,6 +166,9 @@ For full control, use `renderFlag` to supply your own flag implementation (e.g.,
   - `Space` / `Enter` / `ArrowDown` on the trigger → open
   - Typing filters the list; `↑ ↓` moves the active row; `Home` / `End` jump
   - `Enter` commits the active row; `Escape` closes and returns focus to the trigger
+  - Advancing to the language step moves focus into the popover, and returning
+    to the country step restores focus to the search input, so keyboard
+    navigation and the focus trap keep working across both steps
   - While in the language step, `Backspace` with empty search returns to the country list
 - **ARIA**: `role="dialog"`, combobox + listbox semantics, `aria-activedescendant`, `aria-selected`, focus trap.
 
@@ -174,3 +177,25 @@ For full control, use `renderFlag` to supply your own flag implementation (e.g.,
 The package ships ESM + CJS + types. It injects a `"use client"` directive so
 Next.js App Router consumers can import it directly into server components'
 trees. There is no Next.js-specific logic in the package itself — only React.
+
+## Development
+
+This package lives in a pnpm workspace. From the repo root or this directory:
+
+```bash
+pnpm build          # bundle ESM + CJS + types with tsup
+pnpm dev            # tsup in watch mode
+pnpm typecheck      # tsc --noEmit
+pnpm test           # run the Vitest suite once
+pnpm test:watch     # Vitest in watch mode
+```
+
+The test suite (Vitest + Testing Library, jsdom) covers:
+
+- the diacritic-insensitive search ranking (`src/utils/search.ts`);
+- the `useCountryLanguage` state machine — controlled vs. uncontrolled,
+  `localStorage` persistence, and the country → language dependency rule;
+- the component's open/close, search, selection, keyboard navigation
+  (including the cross-step focus behaviour above), and customisation props.
+
+See [`CHANGELOG.md`](./CHANGELOG.md) for release notes.

@@ -20,7 +20,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   country → language dependency rule), and the component's open/close, search,
   selection, keyboard, and customisation behaviour.
 
-## [0.4.1]
+## [0.5.2]
 
 - Baseline release: accessible combobox-style country + language selector with
   type-ahead search, multi-language country support, controlled/uncontrolled
