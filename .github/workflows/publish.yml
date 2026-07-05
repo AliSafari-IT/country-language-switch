@@ -56,6 +56,30 @@ jobs:
             echo "should_publish=true" >> $GITHUB_OUTPUT
           fi
 
+      # actions/setup-node writes a userconfig .npmrc containing the literal
+      # placeholder `_authToken=${NODE_AUTH_TOKEN}`. Relying on that expansion
+      # is brittle with pnpm and silently produces anonymous requests, which
+      # npm answers with a misleading E404 on scoped packages. Instead we write
+      # the resolved token directly to the .npmrc pnpm will actually read.
+      - name: Configure npm authentication
+        if: steps.version-check.outputs.should_publish == 'true'
+        run: |
+          if [ -z "${NODE_AUTH_TOKEN}" ]; then
+            echo "::error::NPM_TOKEN secret is empty or unset. Add a valid npm automation token (with publish access to the @asafarim scope) as the NPM_TOKEN repository secret."
+            exit 1
+          fi
+          NPMRC_PATH="${NPM_CONFIG_USERCONFIG:-$HOME/.npmrc}"
+          echo "registry=https://registry.npmjs.org/" >> "${NPMRC_PATH}"
+          echo "//registry.npmjs.org/:_authToken=${NODE_AUTH_TOKEN}" >> "${NPMRC_PATH}"
+          echo "always-auth=true" >> "${NPMRC_PATH}"
+          echo "Wrote npm auth to ${NPMRC_PATH}"
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Verify npm authentication
+        if: steps.version-check.outputs.should_publish == 'true'
+        run: npm whoami
+
       - name: Publish to npm
         if: steps.version-check.outputs.should_publish == 'true'
         run: pnpm --filter @asafarim/country-language-selector publish --no-git-checks --access public
